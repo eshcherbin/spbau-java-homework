@@ -16,14 +16,15 @@ public class HashTable {
     private int size;
     private LinkedList[] table;
 
-    public HashTable() {
-        size = 0;
-        table = new LinkedList[INITIAL_TABLE_SIZE];
-    }
-
     public HashTable(int tableSize) {
         size = 0;
         table = new LinkedList[tableSize];
+        for (int i = 0; i < table.length; i++)
+            table[i] = new LinkedList();
+    }
+
+    public HashTable() {
+        this(INITIAL_TABLE_SIZE);
     }
 
     public int size() {
