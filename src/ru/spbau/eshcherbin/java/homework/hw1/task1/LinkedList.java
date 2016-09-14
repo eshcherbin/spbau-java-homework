@@ -2,8 +2,8 @@ package ru.spbau.eshcherbin.java.homework.hw1.task1;
 
 public class LinkedList {
     private static class ListItem {
-        ListItem next;
-        HashTable.Entry data;
+        private ListItem next;
+        public final HashTable.Entry data;
 
         public ListItem(ListItem next, HashTable.Entry data) {
             this.next = next;
@@ -19,28 +19,33 @@ public class LinkedList {
 
     public boolean contains(String key) {
         ListItem item = head;
-        while (item != null)
-            if (item.data.key.equals(key))
+        while (item != null) {
+            if (item.data.key.equals(key)) {
                 return true;
+            }
+        }
         return false;
     }
 
     public String get(String key) {
         ListItem item = head;
-        while (item != null)
-            if (item.data.key.equals(key))
-                return item.data.value;
+        while (item != null) {
+            if (item.data.key.equals(key)) {
+                return item.data.getValue();
+            }
+        }
         return null;
     }
 
     public String put(HashTable.Entry entry) {
         ListItem currentItem = head;
-        while (currentItem != null)
+        while (currentItem != null) {
             if (currentItem.data.key.equals(entry.key)) {
-                String oldValue = currentItem.data.value;
-                currentItem.data.value = entry.value;
+                String oldValue = currentItem.data.getValue();
+                currentItem.data.setValue(entry.getValue());
                 return oldValue;
             }
+        }
         head = new ListItem(head, entry);
         return null;
     }
@@ -50,7 +55,7 @@ public class LinkedList {
                  currentItem = dummyItem;
         while (currentItem.next != null) {
             if (currentItem.next.data.key.equals(key)) {
-                String deletedValue = currentItem.next.data.value;
+                String deletedValue = currentItem.next.data.getValue();
                 currentItem.next = currentItem.next.next;
                 head = dummyItem.next;
                 return deletedValue;
@@ -61,8 +66,9 @@ public class LinkedList {
     }
 
     public HashTable.Entry popHead() {
-        if (head == null)
+        if (head == null) {
             return null;
+        }
         HashTable.Entry result = head.data;
         head = head.next;
         return result;

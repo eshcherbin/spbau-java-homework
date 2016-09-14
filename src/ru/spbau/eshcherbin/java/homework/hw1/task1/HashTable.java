@@ -2,11 +2,19 @@ package ru.spbau.eshcherbin.java.homework.hw1.task1;
 
 public class HashTable {
     public static class Entry {
-        String key,
-               value;
+        public final String key;
+        private String value;
 
         public Entry(String key, String value) {
             this.key = key;
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
             this.value = value;
         }
     }
@@ -19,8 +27,9 @@ public class HashTable {
     public HashTable(int tableSize) {
         size = 0;
         table = new LinkedList[tableSize];
-        for (int i = 0; i < table.length; i++)
+        for (int i = 0; i < table.length; i++) {
             table[i] = new LinkedList();
+        }
     }
 
     public HashTable() {
@@ -50,8 +59,9 @@ public class HashTable {
         String result = table[index].put(entry);
         if (result == null) {
             size++;
-            if (size == table.length)
+            if (size == table.length) {
                 extendTable();
+            }
         }
         return result;
     }
@@ -59,31 +69,35 @@ public class HashTable {
     public String remove(String key) {
         int index = getIndex(key);
         String result = table[index].remove(key);
-        if (result != null)
+        if (result != null) {
             size--;
+        }
         return result;
     }
 
     public void clear() {
         size = 0;
-        for (LinkedList list : table)
+        for (LinkedList list : table) {
             list.clear();
+        }
     }
 
     private int getIndex(String string) {
         int index = string.hashCode() % table.length;
-        if (index < 0)
+        if (index < 0) {
             index += table.length;
+        }
         return index;
     }
 
     private void extendTable() {
         HashTable biggerTable = new HashTable(table.length * 2);
-        for (LinkedList list : table)
+        for (LinkedList list : table) {
             while (!list.empty()) {
                 Entry entry = list.popHead();
                 biggerTable.put(entry);
             }
+        }
         table = biggerTable.table;
     }
 }
