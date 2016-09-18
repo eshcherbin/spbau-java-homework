@@ -53,7 +53,7 @@ public class Matrix {
     }
 
     /**
-     * Returns the matrix contents along the clockwise spiral from the center
+     * Returns the matrix contents along the counter-clockwise spiral from the center
      * Size should be odd
      * @return ArrayList that contains the elements along the spiral if matrix's size is odd, null otherwise
      */
@@ -78,5 +78,26 @@ public class Matrix {
         }
         Collections.reverse(result);
         return result;
+    }
+
+    /**
+     * Sorts columns using their first element as a key in O(n^2) time
+     */
+    public void sortColumns() {
+        for (int step = 0; step < matrix.length; step++) {
+            int candidate = step;
+            for (int i = step + 1; i < matrix.length; i++) {
+                if (matrix[0][i] < matrix[0][candidate]) {
+                    candidate = i;
+                }
+            }
+            if (candidate != step) {
+                for (int i = 0; i < matrix.length; i++) {
+                    int swapTemporary = matrix[i][step];
+                    matrix[i][step] = matrix[i][candidate];
+                    matrix[i][candidate] = swapTemporary;
+                }
+            }
+        }
     }
 }
