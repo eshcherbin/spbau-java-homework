@@ -15,22 +15,22 @@ public class HashTableTest {
 
     @Test
     public void size() throws Exception {
-        assertEquals(hashTable.size(), 0);
+        assertEquals(0, hashTable.size());
         hashTable.put("testKey", "testValue");
-        assertEquals(hashTable.size(), 1);
+        assertEquals(1, hashTable.size());
         hashTable.put("anotherTestKey", "anotherTestValue");
-        assertEquals(hashTable.size(), 2);
+        assertEquals(2, hashTable.size());
         hashTable.remove("testKey");
-        assertEquals(hashTable.size(), 1);
+        assertEquals(1, hashTable.size());
         hashTable.remove("testKey");
-        assertEquals(hashTable.size(), 1);
+        assertEquals(1, hashTable.size());
         hashTable.remove("anotherTestKey");
-        assertEquals(hashTable.size(), 0);
+        assertEquals(0, hashTable.size());
 
         for (int i = 0; i < 100; i++) {
             String keyValue = (new Integer(i)).toString();
             hashTable.put(keyValue, keyValue);
-            assertEquals(hashTable.size(), i + 1);
+            assertEquals(i + 1, hashTable.size());
         }
     }
 
@@ -54,27 +54,27 @@ public class HashTableTest {
     public void get() throws Exception {
         hashTable.put("testKey", "testValue");
         hashTable.put("anotherTestKey", "anotherTestValue");
-        assertEquals(hashTable.get("testKey"), "testValue");
-        assertEquals(hashTable.get("anotherTestKey"), "anotherTestValue");
-        assertEquals(hashTable.get("wrongTestKey"), null);
+        assertEquals("testValue", hashTable.get("testKey"));
+        assertEquals("anotherTestValue", hashTable.get("anotherTestKey"));
+        assertEquals(null, hashTable.get("wrongTestKey"));
 
         for (int i = 0; i < 100; i++) {
             String keyValue = (new Integer(i)).toString();
             hashTable.put(keyValue, keyValue);
-            assertEquals(hashTable.get(keyValue), keyValue);
+            assertEquals(keyValue, hashTable.get(keyValue));
         }
     }
 
     @Test
     public void put() throws Exception {
-        assertEquals(hashTable.put("testKey", "testValue"), null);
-        assertEquals(hashTable.put("anotherTestKey", "anotherTestValue"), null);
-        assertEquals(hashTable.put("testKey", "newTestValue"), "testValue");
+        assertEquals(null, hashTable.put("testKey", "testValue"));
+        assertEquals(null, hashTable.put("anotherTestKey", "anotherTestValue"));
+        assertEquals("testValue", hashTable.put("testKey", "newTestValue"));
 
         for (int i = 0; i < 100; i++) {
             String keyValue = (new Integer(i)).toString();
-            assertEquals(hashTable.put(keyValue, keyValue), null);
-            assertEquals(hashTable.put(keyValue, keyValue), keyValue);
+            assertEquals(null, hashTable.put(keyValue, keyValue));
+            assertEquals(keyValue, hashTable.put(keyValue, keyValue));
         }
     }
 
@@ -82,16 +82,16 @@ public class HashTableTest {
     public void remove() throws Exception {
         hashTable.put("testKey", "testValue");
         hashTable.put("anotherTestKey", "anotherTestValue");
-        assertEquals(hashTable.remove("testKey"), "testValue");
-        assertEquals(hashTable.remove("wrongTestKey"), null);
-        assertEquals(hashTable.remove("anotherTestKey"), "anotherTestValue");
-        assertEquals(hashTable.remove("anotherTestKey"), null);
+        assertEquals("testValue", hashTable.remove("testKey"));
+        assertEquals(null, hashTable.remove("wrongTestKey"));
+        assertEquals("anotherTestValue", hashTable.remove("anotherTestKey"));
+        assertEquals(null, hashTable.remove("anotherTestKey"));
 
         for (int i = 0; i < 100; i++) {
             String keyValue = (new Integer(i)).toString();
             hashTable.put(keyValue, keyValue);
-            assertEquals(hashTable.remove(keyValue), keyValue);
-            assertEquals(hashTable.remove(keyValue), null);
+            assertEquals(keyValue, hashTable.remove(keyValue));
+            assertEquals(null, hashTable.remove(keyValue));
         }
     }
 

@@ -26,16 +26,16 @@ public class LinkedListTest {
     public void get() throws Exception {
         linkedList.put(new KeyValuePair("testKey", "testValue"));
         linkedList.put(new KeyValuePair("anotherTestKey", "anotherTestValue"));
-        assertEquals(linkedList.get("testKey"), "testValue");
-        assertEquals(linkedList.get("anotherTestKey"), "anotherTestValue");
-        assertEquals(linkedList.get("wrongTestKey"), null);
+        assertEquals("testValue", linkedList.get("testKey"));
+        assertEquals("anotherTestValue", linkedList.get("anotherTestKey"));
+        assertEquals(null, linkedList.get("wrongTestKey"));
     }
 
     @org.junit.Test
     public void put() throws Exception {
-        assertEquals(linkedList.put(new KeyValuePair("testKey", "testValue")), null);
-        assertEquals(linkedList.put(new KeyValuePair("anotherTestKey", "anotherTestValue")), null);
-        assertEquals(linkedList.put(new KeyValuePair("testKey", "newTestValue")), "testValue");
+        assertEquals(null, linkedList.put(new KeyValuePair("testKey", "testValue")));
+        assertEquals(null, linkedList.put(new KeyValuePair("anotherTestKey", "anotherTestValue")));
+        assertEquals("testValue", linkedList.put(new KeyValuePair("testKey", "newTestValue")));
     }
 
     @org.junit.Test
@@ -43,19 +43,19 @@ public class LinkedListTest {
         assertTrue(true);
         linkedList.put(new KeyValuePair("testKey", "testValue"));
         linkedList.put(new KeyValuePair("anotherTestKey", "anotherTestValue"));
-        assertEquals(linkedList.remove("testKey"), "testValue");
-        assertEquals(linkedList.remove("wrongTestKey"), null);
-        assertEquals(linkedList.remove("anotherTestKey"), "anotherTestValue");
-        assertEquals(linkedList.remove("anotherTestKey"), null);
+        assertEquals("testValue", linkedList.remove("testKey"));
+        assertEquals(null, linkedList.remove("wrongTestKey"));
+        assertEquals("anotherTestValue", linkedList.remove("anotherTestKey"));
+        assertEquals(null, linkedList.remove("anotherTestKey"));
     }
 
     @org.junit.Test
     public void popHead() throws Exception {
         linkedList.put(new KeyValuePair("testKey", "testValue"));
         linkedList.put(new KeyValuePair("anotherTestKey", "anotherTestValue"));
-        assertEquals(linkedList.popHead(), new KeyValuePair("anotherTestKey", "anotherTestValue"));
-        assertEquals(linkedList.popHead(), new KeyValuePair("testKey", "testValue"));
-        assertEquals(linkedList.popHead(), null);
+        assertEquals(new KeyValuePair("anotherTestKey", "anotherTestValue"), linkedList.popHead());
+        assertEquals(new KeyValuePair("testKey", "testValue"), linkedList.popHead());
+        assertEquals(null, linkedList.popHead());
     }
 
     @org.junit.Test
