@@ -43,6 +43,7 @@ public class Trie implements StreamSerializable {
                 currentNode = currentNode.transitions.get(element.charAt(i));
                 currentNode.numberOfTerminalsInSubtree++;
             }
+            size++;
             return true;
         } else {
             return false;
@@ -78,6 +79,7 @@ public class Trie implements StreamSerializable {
                 currentNode = currentNode.transitions.get(element.charAt(i));
                 currentNode.numberOfTerminalsInSubtree--;
             }
+            size--;
             return true;
         } else {
             return false;
