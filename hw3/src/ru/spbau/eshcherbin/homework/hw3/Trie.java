@@ -25,8 +25,12 @@ public class Trie implements StreamSerializable {
     /**
      * Adds element to the Trie.
      * @return true if element wasn't already present in the Trie, false otherwise
+     * @throws IllegalArgumentException if element is null
      */
     public boolean add(String element) {
+        if (element == null) {
+            throw new IllegalArgumentException("null argument in Trie.add");
+        }
         Node currentNode = root;
         for (int i = 0; i < element.length(); i++) {
             if (!currentNode.transitions.containsKey(element.charAt(i))) {
@@ -52,8 +56,12 @@ public class Trie implements StreamSerializable {
 
     /**
      * @return Whether element is stored
+     * @throws IllegalArgumentException if element is null
      */
     public boolean contains(String element) {
+        if (element == null) {
+            throw new IllegalArgumentException("null argument in Trie.contains");
+        }
         Node currentNode = root;
         for (int i = 0; currentNode != null && i < element.length(); i++) {
             currentNode = currentNode.transitions.get(element.charAt(i));
@@ -64,8 +72,12 @@ public class Trie implements StreamSerializable {
     /**
      * Removes given String from the Trie
      * @return true if element was was present in the Trie before removing, false otherwise
+     * @throws IllegalArgumentException if element is null
      */
     public boolean remove(String element) {
+        if (element == null) {
+            throw new IllegalArgumentException("null argument in Trie.remove");
+        }
         Node currentNode = root;
         for (int i = 0; currentNode != null && i < element.length(); i++) {
             currentNode = currentNode.transitions.get(element.charAt(i));
@@ -95,8 +107,12 @@ public class Trie implements StreamSerializable {
 
     /**
      * @return How many elements start with given prefix
+     * @throws IllegalArgumentException if prefix is null
      */
     public int howManyStartsWithPrefix(String prefix) {
+        if (prefix == null) {
+            throw new IllegalArgumentException("null argument in Trie.howManyStartsWithPrefix");
+        }
         Node currentNode = root;
         for (int i = 0; currentNode != null && i < prefix.length(); i++) {
             currentNode = currentNode.transitions.get(prefix.charAt(i));

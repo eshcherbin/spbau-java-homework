@@ -83,4 +83,23 @@ public class TrieTest {
         out.close();
     }
 
+    @org.junit.Test(expected = IllegalArgumentException.class)
+    public void addNullTest() throws Exception {
+        trie.add(null);
+    }
+
+    @org.junit.Test(expected = IllegalArgumentException.class)
+    public void containsNullTest() throws Exception {
+        trie.contains(null);
+    }
+
+    @org.junit.Test(expected = IllegalArgumentException.class)
+    public void removeNullTest() throws Exception {
+        trie.remove(null);
+    }
+
+    @org.junit.Test(expected = IllegalArgumentException.class)
+    public void howManyStartsWithPrefixNullTest() throws Exception {
+        trie.howManyStartsWithPrefix(null);
+    }
 }
