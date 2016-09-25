@@ -15,7 +15,7 @@ public class TrieTest {
     }
 
     @org.junit.Test
-    public void addAndContains() throws Exception {
+    public void addAndContainsTest() throws Exception {
         assertTrue(trie.add("testString"));
         assertTrue(trie.contains("testString"));
         assertFalse(trie.add("testString"));
@@ -27,7 +27,7 @@ public class TrieTest {
     }
 
     @org.junit.Test
-    public void remove() throws Exception {
+    public void removeTest() throws Exception {
         trie.add("testString");
         trie.add("anotherTestString");
         assertFalse(trie.remove(""));
@@ -37,7 +37,7 @@ public class TrieTest {
     }
 
     @org.junit.Test
-    public void size() throws Exception {
+    public void sizeTest() throws Exception {
         assertEquals(0, trie.size());
         trie.add("testString");
         assertEquals(1, trie.size());
@@ -52,7 +52,7 @@ public class TrieTest {
     }
 
     @org.junit.Test
-    public void howManyStartsWithPrefix() throws Exception {
+    public void howManyStartsWithPrefixTest() throws Exception {
         trie.add("endless");
         trie.add("endfull");
         trie.add("endian");
