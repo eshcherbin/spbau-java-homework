@@ -38,7 +38,7 @@ public class IntegerSquarer {
     public void writeToFile(@NotNull OutputStream out) {
         PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(out));
         for (Maybe maybe : numbers) {
-            printWriter.print(maybe.isPresent() ? maybe.get().toString() : "nothing");
+            printWriter.print(maybe.isPresent() ? maybe.get().toString() : "null");
             printWriter.println();
         }
     }
