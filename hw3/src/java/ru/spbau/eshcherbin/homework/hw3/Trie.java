@@ -33,18 +33,18 @@ public class Trie implements StreamSerializable {
         }
         Node currentNode = root;
         for (int i = 0; i < element.length(); i++) {
-            if (!currentNode.transitions.containsKey(element.charAt(i))) {
-                currentNode.transitions.put(element.charAt(i), new Node());
+            if (currentNode.nextNode(element.charAt(i)) == null) {
+                currentNode.addTransition(element.charAt(i), new Node());
             }
-            currentNode = currentNode.transitions.get(element.charAt(i));
+            currentNode = currentNode.nextNode(element.charAt(i));
         }
         if (!currentNode.isTerminal) {
-            // walk along element one more to update it's parents
+            // walk along element once more to update it's parents
             currentNode.isTerminal = true;
             root.numberOfTerminalsInSubtree++;
             currentNode = root;
             for (int i = 0; i < element.length(); i++) {
-                currentNode = currentNode.transitions.get(element.charAt(i));
+                currentNode = currentNode.nextNode(element.charAt(i));
                 currentNode.numberOfTerminalsInSubtree++;
             }
             size++;
@@ -62,11 +62,8 @@ public class Trie implements StreamSerializable {
         if (element == null) {
             throw new IllegalArgumentException("null argument in Trie.contains");
         }
-        Node currentNode = root;
-        for (int i = 0; currentNode != null && i < element.length(); i++) {
-            currentNode = currentNode.transitions.get(element.charAt(i));
-        }
-        return currentNode != null && currentNode.isTerminal;
+        Node elementNode = walkAlongString(root, element);
+        return elementNode != null && elementNode.isTerminal;
     }
 
     /**
@@ -78,18 +75,25 @@ public class Trie implements StreamSerializable {
         if (element == null) {
             throw new IllegalArgumentException("null argument in Trie.remove");
         }
-        Node currentNode = root;
-        for (int i = 0; currentNode != null && i < element.length(); i++) {
-            currentNode = currentNode.transitions.get(element.charAt(i));
-        }
-        if (currentNode != null && currentNode.isTerminal) {
+        Node elementNode = walkAlongString(root, element);
+        if (elementNode != null && elementNode.isTerminal) {
             // walk along element one more to update it's parents
-            currentNode.isTerminal = false;
+            elementNode.isTerminal = false;
             root.numberOfTerminalsInSubtree--;
-            currentNode = root;
-            for (int i = 0; i < element.length(); i++) {
-                currentNode = currentNode.transitions.get(element.charAt(i));
-                currentNode.numberOfTerminalsInSubtree--;
+            if (root.numberOfTerminalsInSubtree == 0) {
+                root = null;
+            } else {
+                elementNode = root;
+                for (int i = 0; i < element.length(); i++) {
+                    Node nextNode = elementNode.nextNode(element.charAt(i));
+                    nextNode.numberOfTerminalsInSubtree--;
+                    if (nextNode.numberOfTerminalsInSubtree == 0) {
+                        elementNode.removeTransition(element.charAt(i));
+                        break;
+                    } else {
+                        elementNode = nextNode;
+                    }
+                }
             }
             size--;
             return true;
@@ -141,9 +145,21 @@ public class Trie implements StreamSerializable {
     }
 
     /**
+     * Travels along string in the Trie starting from startNode
+     * @return A node that corresponds to string if there's any, null otherwise
+     */
+    private Node walkAlongString(Node startNode, String string) {
+        Node currentNode = startNode;
+        for (int i = 0; currentNode != null && i < string.length(); i++) {
+            currentNode = currentNode.nextNode(string.charAt(i));
+        }
+        return currentNode;
+    }
+
+    /**
      * A class that represents a tree vertex
      */
-    private class Node implements Serializable{
+    private class Node implements Serializable {
         private boolean isTerminal;
         private int numberOfTerminalsInSubtree;
         private HashMap<Character, Node> transitions;
@@ -164,6 +180,27 @@ public class Trie implements StreamSerializable {
             isTerminal = in.readBoolean();
             numberOfTerminalsInSubtree = in.readInt();
             transitions = (HashMap<Character, Node>) in.readObject();
+        }
+
+        /**
+         * @return A node to which the transition with character leads
+         */
+        public Node nextNode(char character) {
+            return transitions.get(character);
+        }
+
+        /**
+         * Adds a new transition
+         */
+        public void addTransition(char character, Node node) {
+            transitions.put(character, node);
+        }
+
+        /**
+         * Removes a transition
+         */
+        public void removeTransition(char character) {
+            transitions.remove(character);
         }
     }
 }
