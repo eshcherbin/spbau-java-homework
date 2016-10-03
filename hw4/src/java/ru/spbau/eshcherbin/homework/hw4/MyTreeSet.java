@@ -31,6 +31,8 @@ public class MyTreeSet<T extends Comparable<T>> {
     public boolean add(@NotNull T element) {
         if (root == null) {
             root = new TreeNode(element);
+            size++;
+            return true;
         }
         TreeNode currentNode = root;
         while (true) {
@@ -40,6 +42,7 @@ public class MyTreeSet<T extends Comparable<T>> {
             } else if (compareResult < 0) {
                 if (currentNode.leftSon == null) {
                     currentNode.leftSon = new TreeNode(element);
+                    size++;
                     return true;
                 } else {
                     currentNode = currentNode.leftSon;
@@ -47,6 +50,7 @@ public class MyTreeSet<T extends Comparable<T>> {
             } else {
                 if (currentNode.rightSon == null) {
                     currentNode.rightSon = new TreeNode(element);
+                    size++;
                     return true;
                 }
                 else {
