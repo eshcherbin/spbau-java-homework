@@ -26,7 +26,7 @@ public class IntegerSquarer {
      * Reads numbers from given stream line by line.
      * If current line is not a number Maybe.nothing() is added to numbers
      */
-    public void readFromFile(@NotNull InputStream in) {
+    public void readNumbers(@NotNull InputStream in) {
         numbers.clear();
         Scanner scanner = new Scanner(new InputStreamReader(in));
         while (scanner.hasNextLine()) {
@@ -51,11 +51,19 @@ public class IntegerSquarer {
     /**
      * Writes numbers to given stream
      */
-    public void writeToFile(@NotNull OutputStream out) {
+    public void writeNumbers(@NotNull OutputStream out) {
         PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(out));
         for (Maybe maybe : numbers) {
             printWriter.print(maybe.isPresent() ? maybe.get().toString() : "null");
             printWriter.println();
         }
+        printWriter.flush();
+    }
+
+    /**
+     * @return numbers that are currently contained
+     */
+    public List<Maybe<Integer>> getNumbers() {
+        return numbers;
     }
 }
