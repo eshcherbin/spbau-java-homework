@@ -5,23 +5,40 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
+/**
+ * A container that either stores a value of given type or is empty
+ * @param <T> Type of the stored data
+ */
 public class Maybe<T> {
+    /**
+     * Data that is stored
+     */
     private @Nullable T data;
 
     public Maybe(@Nullable T data) {
         this.data = data;
     }
 
+    /**
+     * Constructs a Maybe with t stored in it
+     */
     @NotNull
     public static <T> Maybe<T> just(@NotNull T t) {
         return new Maybe<>(t);
     }
 
+    /**
+     * Constructs a Maybe with nothing stored in it
+     */
     @NotNull
     public static <T> Maybe<T> nothing() {
         return new Maybe<>(null);
     }
 
+    /**
+     * @return Data that is stored in the Maybe
+     * @throws MaybeDataIsNullException when trying to extract data from nothing
+     */
     @NotNull
     public T get() throws MaybeDataIsNullException {
         if (data == null) {
@@ -30,10 +47,18 @@ public class Maybe<T> {
         return data;
     }
 
+    /**
+     * @return true if anything is stored, false otherwise
+     */
     public boolean isPresent() {
         return data != null;
     }
 
+    /**
+     * Applies mapper to stored data
+     * @param mapper Function to be applied
+     * @return Result of applying mapper
+     */
     @NotNull
     public <U> Maybe<U> map(@NotNull Function<? super T, ? extends U> mapper) {
         return isPresent() ? (Maybe.just(mapper.apply(data))) : (Maybe.nothing());

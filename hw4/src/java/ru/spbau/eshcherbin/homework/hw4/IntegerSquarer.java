@@ -8,14 +8,24 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+/**
+ * A utility class that can read some integers from file, square them and write the result to another file
+ */
 public class IntegerSquarer {
 
+    /**
+     * A list that contains all read numbers.
+     */
     private @NotNull List<Maybe<Integer>> numbers;
 
     public IntegerSquarer() {
-        numbers = new ArrayList<Maybe<Integer>>();
+        numbers = new ArrayList<>();
     }
 
+    /**
+     * Reads numbers from given stream line by line.
+     * If current line is not a number Maybe.nothing() is added to numbers
+     */
     public void readFromFile(@NotNull InputStream in) {
         numbers.clear();
         Scanner scanner = new Scanner(new InputStreamReader(in));
@@ -31,10 +41,16 @@ public class IntegerSquarer {
         }
     }
 
+    /**
+     * Squares contained numbers
+     */
     public void squareNumbers() {
         numbers = numbers.stream().map(m -> m.map(n -> n * n)).collect(Collectors.toList());
     }
 
+    /**
+     * Writes numbers to given stream
+     */
     public void writeToFile(@NotNull OutputStream out) {
         PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(out));
         for (Maybe maybe : numbers) {
