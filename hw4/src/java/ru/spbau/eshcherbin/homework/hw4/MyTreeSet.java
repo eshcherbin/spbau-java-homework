@@ -3,10 +3,20 @@ package ru.spbau.eshcherbin.homework.hw4;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * A simple container based on binary search tree
+ * @param <T> Type of the contained values
+ */
 public class MyTreeSet<T extends Comparable<T>> {
 
+    /**
+     * Number of elements contained
+     */
     private int size;
 
+    /**
+     * The root of the tree
+     */
     private @Nullable TreeNode root;
 
     public MyTreeSet() {
@@ -14,6 +24,10 @@ public class MyTreeSet<T extends Comparable<T>> {
         root = null;
     }
 
+    /**
+     * Adds an element
+     * @return true if element wasn't already contained, false otherwise
+     */
     public boolean add(@NotNull T element) {
         if (root == null) {
             root = new TreeNode(element);
@@ -42,6 +56,9 @@ public class MyTreeSet<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * @return true if element is contained, false otherwise
+     */
     public boolean contains(@NotNull T element) {
         if (root == null) {
             return false;
@@ -68,10 +85,16 @@ public class MyTreeSet<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * @return Number of elements contained
+     */
     public int size() {
         return size;
     }
 
+    /**
+     * An auxiliary class representing a node of the tree
+     */
     private class TreeNode {
         private @NotNull T data;
         private @Nullable TreeNode leftSon;
