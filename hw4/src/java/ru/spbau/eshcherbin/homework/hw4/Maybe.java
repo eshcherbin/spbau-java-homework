@@ -7,7 +7,7 @@ import java.util.function.Function;
 
 /**
  * A container that either stores a value of given type or is empty
- * @param <T> Type of the stored data
+ * @param <T> type of the stored data
  */
 public class Maybe<T> {
     /**
@@ -15,7 +15,7 @@ public class Maybe<T> {
      */
     private @Nullable T data;
 
-    public Maybe(@Nullable T data) {
+    private Maybe(@Nullable T data) {
         this.data = data;
     }
 
@@ -36,6 +36,7 @@ public class Maybe<T> {
     }
 
     /**
+     * Returns data that is stored in the Maybe
      * @return Data that is stored in the Maybe
      * @throws MaybeDataIsNullException when trying to extract data from nothing
      */
@@ -56,12 +57,12 @@ public class Maybe<T> {
 
     /**
      * Applies mapper to stored data
-     * @param mapper Function to be applied
+     * @param mapper function to be applied
      * @return Result of applying mapper
      */
     @NotNull
     public <U> Maybe<U> map(@NotNull Function<? super T, ? extends U> mapper) {
-        return isPresent() ? (Maybe.just(mapper.apply(data))) : (Maybe.nothing());
+        return isPresent() ? Maybe.just(mapper.apply(data)) : Maybe.nothing();
     }
 
     @Override

@@ -20,8 +20,6 @@ public class MyTreeSet<T extends Comparable<T>> {
     private @Nullable TreeNode root;
 
     public MyTreeSet() {
-        size = 0;
-        root = null;
     }
 
     /**
