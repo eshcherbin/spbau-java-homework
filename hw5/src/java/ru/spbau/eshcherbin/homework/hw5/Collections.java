@@ -2,6 +2,7 @@ package ru.spbau.eshcherbin.homework.hw5;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,6 +12,19 @@ import java.util.List;
 public class Collections {
     private Collections() {
         // Shouldn't be inherited
+    }
+
+    /**
+     * An implementation of foldr (see below)
+     */
+    @NotNull
+    private static <A, R> R foldr(@NotNull Function2<? super A, ? super R, ? extends R> function,
+                                                R initial, @NotNull Iterator<A> iterator) {
+        if (iterator.hasNext()) {
+            return foldr(function, function.apply(iterator.next(), initial), iterator);
+        } else {
+            return initial;
+        }
     }
 
     /**
@@ -63,6 +77,25 @@ public class Collections {
         return takeWhile(predicate.not(), iterable);
     }
 
-    //TODO: implement foldl and foldr
+    /**
+     * @return A combination of iterable elements using function in right-associative way
+     */
+    @NotNull
+    public static <A, R> R foldr(@NotNull Function2<? super A, ? super R, ? extends R> function,
+                                 R initial, @NotNull Iterable<A> iterable) {
+        return foldr(function, initial, iterable.iterator());
+    }
 
+    /**
+     * @return A combination of iterable elements using function in left-associative way
+     */
+    @NotNull
+    public static <A, R> R foldl(@NotNull Function2<? super R, ? super A, ? extends R> function,
+                                 R initial, @NotNull Iterable<A> iterable) {
+        R accumulator = initial;
+        for (A element : iterable) {
+            accumulator = function.apply(accumulator, element);
+        }
+        return accumulator;
+    }
 }

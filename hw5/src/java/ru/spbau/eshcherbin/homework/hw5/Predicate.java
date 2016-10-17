@@ -34,8 +34,7 @@ public interface Predicate<A> extends Function1<A, Boolean> {
     }
 
     /**
-     * @return A predicate that always returns false
-     */
+     * @return A predicate that always returns false */
     static <A> Predicate<A> getAlwaysFalsePredicate() {
         return ignoredArgument -> false;
     }

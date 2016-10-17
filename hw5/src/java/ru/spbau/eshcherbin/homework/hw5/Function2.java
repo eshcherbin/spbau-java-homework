@@ -8,9 +8,9 @@ package ru.spbau.eshcherbin.homework.hw5;
  */
 public interface Function2<A1, A2, R> {
     /**
-     * @return Result of application of the function on argument
+     * @return Result of application of the function on argument1
      */
-    R apply(A1 argument, A2 argument2);
+    R apply(A1 argument1, A2 argument2);
 
     /**
      * @return Composition of the function with function g
