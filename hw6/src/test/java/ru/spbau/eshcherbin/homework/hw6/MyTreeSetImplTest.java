@@ -3,6 +3,9 @@ package ru.spbau.eshcherbin.homework.hw6;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import static org.junit.Assert.*;
@@ -146,5 +149,64 @@ public class MyTreeSetImplTest {
         assertEquals(null, treeSet.higher(117));
         assertEquals(Integer.valueOf(-225), treeSet.higher(-1000));
         assertEquals(Integer.valueOf(0), treeSet.higher(-224));
+    }
+
+    @Test
+    public void iteratorTest() throws Exception {
+        treeSet.add(0);
+        treeSet.add(-225);
+        treeSet.add(117);
+        treeSet.add(-1);
+        treeSet.add(-1000);
+        Iterator<Integer> iterator = treeSet.iterator();
+        for (Integer integer : Arrays.asList(-1000, -225, -1, 0, 117)) {
+            assertTrue(iterator.hasNext());
+            assertEquals(integer, iterator.next());
+        }
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void iteratorFailTest() throws Exception {
+        Iterator<Integer> iterator = treeSet.iterator();
+        iterator.next();
+    }
+
+    @Test
+    public void descendingIteratorTest() throws Exception {
+        treeSet.add(0);
+        treeSet.add(-225);
+        treeSet.add(117);
+        treeSet.add(-1);
+        treeSet.add(-1000);
+        Iterator<Integer> iterator = treeSet.descendingIterator();
+        for (Integer integer : Arrays.asList(117, 0, -1, -225, -1000)) {
+            assertTrue(iterator.hasNext());
+            assertEquals(integer, iterator.next());
+        }
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void descendingIteratorFailTest() throws Exception {
+        Iterator<Integer> iterator = treeSet.descendingIterator();
+        iterator.next();
+    }
+
+    @Test
+    public void descendingSetTest() throws Exception {
+        treeSet.add(0);
+        treeSet.add(-225);
+        treeSet.add(117);
+        treeSet.add(-1);
+        treeSet.add(-1000);
+        MyTreeSet<Integer> descendingSet = treeSet.descendingSet();
+        assertEquals(5, descendingSet.size());
+        assertEquals(Integer.valueOf(117), descendingSet.first());
+        assertEquals(Integer.valueOf(-1000), descendingSet.last());
+        assertEquals(Integer.valueOf(0), descendingSet.lower(-1));
+        assertEquals(Integer.valueOf(117), descendingSet.floor(1));
+        assertEquals(Integer.valueOf(-225), descendingSet.higher(-1));
+        assertEquals(Integer.valueOf(-1), descendingSet.ceiling(-1));
     }
 }

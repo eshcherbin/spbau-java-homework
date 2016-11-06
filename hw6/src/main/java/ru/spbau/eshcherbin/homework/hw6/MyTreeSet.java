@@ -2,7 +2,6 @@ package ru.spbau.eshcherbin.homework.hw6;
 
 import java.util.Iterator;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Interface of a set of comparable elements that is capable of finding elements higher or lower than given
