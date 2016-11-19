@@ -31,8 +31,13 @@ public class Main {
                             Enumeration<? extends ZipEntry> zipEntries = zipFile.entries();
                             while (zipEntries.hasMoreElements()) {
                                 ZipEntry currentEntry = zipEntries.nextElement();
-                                if (!currentEntry.isDirectory() && pattern.matcher(currentEntry.getName()).matches()) {
+                                Path currentEntryPath = Paths.get(currentEntry.getName());
+                                String currentEntryFileName = currentEntryPath.getFileName().toString();
+                                String currentEntryFolders = currentEntryPath.getParent() == null ? "" :
+                                                                currentEntryPath.getParent().toString();
+                                if (!currentEntry.isDirectory() && pattern.matcher(currentEntryFileName).matches()) {
                                     try (InputStream inputStream = zipFile.getInputStream(currentEntry)) {
+                                        Files.createDirectories(foundDirectory.resolve(currentEntryFolders));
                                         Files.copy(inputStream, foundDirectory.resolve(currentEntry.getName()),
                                                 StandardCopyOption.REPLACE_EXISTING);
                                     } catch (IOException e) {
