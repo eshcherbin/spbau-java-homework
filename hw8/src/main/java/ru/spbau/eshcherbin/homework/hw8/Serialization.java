@@ -16,6 +16,8 @@ import java.util.Scanner;
  * which contain only primitive or String fields.
  */
 public class Serialization {
+    private static final String NULL_STRING = "null";
+
     /**
      * Serializes given object to the given outputStream
      */
@@ -28,10 +30,15 @@ public class Serialization {
             for (Field field : fields) {
                 field.setAccessible(true);
                 if (field.getType().equals(String.class)) {
-                    byte[] bytes = ((String) field.get(object)).getBytes();
-                    printWriter.println(bytes.length);
-                    for (byte b : bytes) {
-                        printWriter.println(b);
+                    String value = (String) field.get(object);
+                    if (value == null) {
+                        printWriter.println(NULL_STRING);
+                    } else {
+                        byte[] bytes = value.getBytes();
+                        printWriter.println(bytes.length);
+                        for (byte b : bytes) {
+                            printWriter.println(b);
+                        }
                     }
                 } else {
                     printWriter.println(field.get(object));
@@ -82,11 +89,15 @@ public class Serialization {
                     } else if (fieldType.equals(Double.TYPE)) {
                         field.setDouble(result, Double.parseDouble(value));
                     } else if (fieldType.equals(String.class)) {
-                        byte[] bytes = new byte[Integer.parseInt(value)];
-                        for (int i = 0; i < bytes.length; i++) {
-                            bytes[i] = Byte.parseByte(scanner.nextLine());
+                        if (value.equals(NULL_STRING)) {
+                            field.set(result, null);
+                        } else {
+                            byte[] bytes = new byte[Integer.parseInt(value)];
+                            for (int i = 0; i < bytes.length; i++) {
+                                bytes[i] = Byte.parseByte(scanner.nextLine());
+                            }
+                            field.set(result, new String(bytes));
                         }
-                        field.set(result, new String(bytes));
                     } else {
                         throw new IllegalArgumentException("Given class contains non-primitive and non-String field");
                     }
